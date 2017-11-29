@@ -313,9 +313,9 @@ public class Tri {
 	//croissant == false ==> decroissant ; R == true ==> Recursive 
 	public static void Tri_Bull(ArrayList<Integer> t,boolean R,boolean croissant) {
 		if(croissant == true && R == true)
-			Tri_Bull_R_C(t, 0, t.size());
+			Tri_Bull_R_C(t, 0, 1);
 		else if(croissant == false && R == true)  
-			Tri_Bull_R_D(t, 0, t.size());
+			Tri_Bull_R_D(t, 0, 1);
 		else if (croissant == false) 
 			Tri_Bull_D(t);
 		else Tri_Bull_C(t);

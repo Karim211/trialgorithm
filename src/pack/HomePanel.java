@@ -36,7 +36,7 @@ public class HomePanel {
 	private JTextField tfKeyFI, tfKeyH, tfSA;
 	private JRadioButton rbtnTrInsert, rbtnTriFusion, rbtnTriBul, rbtnTriTas, rbtnTriFusionInsert;
 	
-	private JButton btnFA,btnTri;
+	private JButton btnFA,btnTri,btClear;
 	private JRadioButton rbtnFARand, rbtnFAIncreas, rbtnFADecreas, rbtnFAHand, rbtnI, rbtnD, rbtnR, rbtnL;
 	private ButtonGroup btngTri, btngFA, btngID, btngRL;
 	
@@ -93,6 +93,7 @@ public class HomePanel {
 		//***********************************Button****************************************
 		btnFA = new JButton("Fill Array");	
 		btnTri = new JButton("Tri Array");
+		btClear = new JButton("Clear");
 		//***********************************JRadioButton**************************************
 		rbtnTrInsert = new JRadioButton("Tri Insertion (L)");
 		rbtnTriFusion = new JRadioButton("Tri Fusion (R)");
@@ -162,9 +163,11 @@ public class HomePanel {
 		
 		//***********************************Button****************************************
 		btnFA.setBackground(new Color(153, 153, 153));
-		btnFA.setBounds(380, 322, 100, 25);
+		btnFA.setBounds(350, 322, 100, 25);
 		btnTri.setBackground(new Color(153, 153, 153));
-		btnTri.setBounds(530, 322, 100, 25);
+		btnTri.setBounds(470, 322, 100, 25);
+		btClear.setBackground(new Color(153, 153, 153));
+		btClear.setBounds(590, 322, 100, 25);
 		//***********************************JRadioButton**************************************
 		rbtnFARand.setBackground(new Color(153, 153, 153));
 		rbtnFARand.setSelected(true);
@@ -229,7 +232,8 @@ public class HomePanel {
 		panel.add(tfKeyFI);panel.add(tfSA);panel.add(tfKeyH);
 		//***********************************Button****************************************
 		frame.getContentPane().add(btnFA);
-		frame.getContentPane().add(btnTri);	
+		frame.getContentPane().add(btnTri);
+		frame.getContentPane().add(btClear);
 		//***********************************JRadioButton**************************************
 		panel.add(rbtnFARand);
 		panel.add(rbtnFAIncreas);
@@ -295,14 +299,13 @@ public class HomePanel {
 							while (tab.charAt(i)!=',') {
 								c=c+tab.charAt(i);i++;	
 							}
-							//System.out.println("1_t["+i+"]"+t.get(i)+"tab[]:"+tab.charAt(i));
+							
 							n=Integer.parseInt(c);
 							tIinitial.add(n);
-							//System.out.println("2_t["+i+"]"+t.get(i)+"tab[]:"+tab.charAt(i));
+							
 						}
 					}
 					txtpnB.setText(tIinitial.toString());
-					System.out.println(" x="+x);			
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -319,7 +322,6 @@ public class HomePanel {
 				// TODO Auto-generated method stub
 				try {
 					tTrie = (ArrayList<Integer>) tIinitial.clone();
-					System.out.println(tTrie.toString());
 					t1=System.nanoTime();//currentTimeMillis();
 					if (rbtnTriBul.isSelected()) {
 						Tri.Tri_Bull(tTrie,boolRL, boolID);
@@ -345,6 +347,18 @@ public class HomePanel {
 				
 			}
 			
+		});
+		
+		btClear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				tTrie.clear();
+				tIinitial.clear();
+				txtpnA.setText("");
+				txtpnB.setText("");
+			}
 		});
 	
 		
