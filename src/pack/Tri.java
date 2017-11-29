@@ -8,25 +8,84 @@ public class Tri {
 	
 	
 	
-	/*
-	public void tri_tas(ArrayList<Integer> t) {
+	
+	public static void Tri_Tas(ArrayList<Integer> t,boolean croissant) {
 		
-		construire_tas_max(t);
-		for(i=t.size();i<=2;i++) {
-			tran
+		Construire_Tas(t,croissant);
+		System.out.println(t.toString());
+		if (croissant == true) 
+			for(int i=t.size()-1;i>=1;i--) {
+				Tronspos(t, 0, i);
+				Entasser_Max(t, 0, i);
+				
+			}
+		else for(int i=t.size()-1;i>=1;i--) {
+			Tronspos(t, 0, i);
+			Entasser_Min(t, 0, i);
+			
 		}
-	}*/
-	public void construire_tas_max(ArrayList<Integer> t) {
-		
 	}
-	public void entasser_max(ArrayList<Integer> t, int i) {
-		
+	public static void Construire_Tas(ArrayList<Integer> t,boolean croissant) {
+		if (croissant == true) {
+			for(int i=(t.size()-1)/2;i>=0;i--) {
+				Entasser_Max(t, i, t.size());
+			}
+		}
+			
+		else {
+			for(int i=(t.size()-1)/2;i>=0;i--) {
+				Entasser_Min(t, i, t.size());
+			}
+		}
+			
 	}
+	public static void Entasser_Max(ArrayList<Integer> t, int i, int x) {// strictement inferieur x taill
+	int l =Gauche(i);
+	int r = Droit(i);
+	int max=0;
+	//System.out.println("entasser_max");
+	if(l<x && t.get(l)>t.get(i)) {
+		max=l;
+	}else {
+		max=i;
+	}
+	if (r<x && t.get(r)>t.get(max))max=r;
+	//System.out.println("i="+i+" l="+l+" r="+r+" max="+max+" x"+x);
+	if (max!=i) {
+		Tronspos(t, max, i);
+		Entasser_Max(t, max, x);
+	}
+	}
+    
+    public static void Entasser_Min(ArrayList<Integer> t, int i, int x) {// strictement inferieur x taill
+    	int l =Gauche(i);
+    	int r = Droit(i);
+    	int max;
+    	//System.out.println("entasser_max");
+    	if(l<x && t.get(l)<t.get(i)) {
+    		max=l;
+    	}else {
+    		max=i;
+    	}
+    	if (r<x && t.get(r)<t.get(max))max=r;
+    	//System.out.println("i="+i+" l="+l+" r="+r+" max="+max+" x"+x);
+    	if (max!=i) {
+    		Tronspos(t, max, i);
+    		Entasser_Min(t, max, x);
+    	}
+    	}
+        
+        public static int Droit(int i) {
+        	return i*2+2;
+        }
+        
+        public static int Gauche(int i) {
+        	return i*2+1;
+        }
     //------------------------------------------TRI FUSION------------------------------------------------------------------
 
     public static void Tri_fusion_R_C(ArrayList<Integer> t, int d, int f)
     {   
-    	System.out.println("Fusion");
         int m;
         if (d<f)
         {    m=(int)(d+f)/2;
@@ -36,19 +95,8 @@ public class Tri {
         }
     }
     
-    public static int Droit(int i) {
-    	return i/2+2;
-    }
-    
-    public static int Gauche(int i) {
-    	return i/2+1;
-    }
-    
-    
-    
     public static void Tri_fusion_R_D(ArrayList<Integer> t, int d, int f)
     {   
-    	System.out.println("Fusion");
         int m;
         if (d<f)
         {    m=(int)(d+f)/2;
@@ -265,9 +313,9 @@ public class Tri {
 	//croissant == false ==> decroissant ; R == true ==> Recursive 
 	public static void Tri_Bull(ArrayList<Integer> t,boolean R,boolean croissant) {
 		if(croissant == true && R == true)
-			Tri_Bull_R_C(t, 0, t.size()-1);
+			Tri_Bull_R_C(t, 0, t.size());
 		else if(croissant == false && R == true)  
-			Tri_Bull_R_D(t, 0, t.size()-1);
+			Tri_Bull_R_D(t, 0, t.size());
 		else if (croissant == false) 
 			Tri_Bull_D(t);
 		else Tri_Bull_C(t);
@@ -290,7 +338,7 @@ public class Tri {
 	public static void main (String[] args) {
 	    	
 	    	ArrayList<Integer> t= new ArrayList<Integer>();
-	    	int nbr=1000;
+	    	int nbr=10;
 	    	long t1,t2,tdif;
 	        for(int i = 1 ; i<= nbr; i++){
 	            t.add((int)(Math.random()*100));
@@ -301,7 +349,7 @@ public class Tri {
 	        
 	        //System.out.println("tri Bull Boucle Croissant");Tri_Bull_C(t); //---------OK
 	        //System.out.println("tri Bull Boucle Décroissant");Tri_Bull_D(t); //-----------OK
-	        System.out.println("tri Bull Récursif Croissant");Tri_Bull_R_C(t, 0, nbr-1); //-------OK
+	        //System.out.println("tri Bull Récursif Croissant");Tri_Bull_R_C(t, 0, nbr-1); //-------OK
 	        //System.out.println("tri Bull Récursif Décroissant");Tri_Bull_R_D(t, 0, nbr-1); //-------OK	
 	        
 	        //System.out.println("tri Fusion Récursif Croissant");Tri_fusion_R_C(t, 0, nbr-1); //--------OK
@@ -313,8 +361,9 @@ public class Tri {
 	        //System.out.println("tri FusionInsertion Boucle Croissant");Tri_Fusion_Insertion_C(t, 0, nbr-1, 100);  //---------------OK
 	        //System.out.println("tri FusionInsertion Boucle Décroissant");Tri_Fusion_Insertion_D(t, 0, nbr-1, 100); //---------------OK
 	        
-	        Tri_Fusion_Insertion(t, false, 100);
-	        
+	        //Tri_Fusion_Insertion(t, false, 100);
+	        System.out.println("tri tas ");
+	        Tri_Tas(t, false);
 	        
 	        
 	        

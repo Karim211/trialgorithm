@@ -3,11 +3,9 @@ package pack;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -18,9 +16,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.table.TableCellRenderer;
-
-import org.w3c.dom.stylesheets.StyleSheet;
 
 import pack.Tri;
 
@@ -39,13 +34,13 @@ public class HomePanel {
 	private JLabel lblHpo, lblHpc, lblKeyFI, lblSA, lblExTi, lblET;
 	
 	private JTextField tfKeyFI, tfKeyH, tfSA;
-	private JRadioButton rbtnTrInsert, rbtnTriFusion, rbtnTriBul, rbtnTriFusionInsert;
+	private JRadioButton rbtnTrInsert, rbtnTriFusion, rbtnTriBul, rbtnTriTas, rbtnTriFusionInsert;
 	
 	private JButton btnFA,btnTri;
 	private JRadioButton rbtnFARand, rbtnFAIncreas, rbtnFADecreas, rbtnFAHand, rbtnI, rbtnD, rbtnR, rbtnL;
 	private ButtonGroup btngTri, btngFA, btngID, btngRL;
 	
-	private ArrayList<Integer> t;
+	private ArrayList<Integer> tIinitial,tTrie;
 	private boolean boolID=true, boolRL=true;
 	private long t1,t2,te=0;
 
@@ -102,6 +97,7 @@ public class HomePanel {
 		rbtnTrInsert = new JRadioButton("Tri Insertion (L)");
 		rbtnTriFusion = new JRadioButton("Tri Fusion (R)");
 		rbtnTriBul = new JRadioButton("Tri Bull");
+		rbtnTriTas = new JRadioButton("Tri Tas");
 		rbtnTriFusionInsert = new JRadioButton("Tri Fusion+Insertion (L/R)");
 		btngTri = new ButtonGroup();
 		
@@ -150,7 +146,7 @@ public class HomePanel {
 		lblTitlep2.setBounds(80, 30, 50, 15);
 		lblCTri.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblCTri.setBounds(30, 240, 140, 15);
-		lblKeyFI.setBounds(30, 340, 50, 15);
+		lblKeyFI.setBounds(30, 360, 50, 15);
 		lblHpo.setFont(new Font("Dialog", Font.BOLD, 18));
 		
 		lblCFA.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -160,9 +156,9 @@ public class HomePanel {
 		lblHpc.setFont(new Font("Dialog", Font.BOLD, 18));
 		lblHpc.setBounds(200, 200, 10, 20);
 		//***********************************TextFileds**************************************
-		tfKeyFI.setBounds(65, 340, 40, 17);
 		tfSA.setBounds(100, 100, 60, 18);
 		tfKeyH.setBounds(15, 200, 182, 20);
+		tfKeyFI.setBounds(65, 360, 40, 17);
 		
 		//***********************************Button****************************************
 		btnFA.setBackground(new Color(153, 153, 153));
@@ -189,19 +185,21 @@ public class HomePanel {
 		rbtnTrInsert.setBounds(8, 300, 144, 20);
 		rbtnTriFusion.setBounds(8, 280, 157, 20);
 		rbtnTriFusion.setBackground(new Color(153, 153, 153));
+		rbtnTriTas.setBounds(8, 320, 157, 20);
+		rbtnTriTas.setBackground(new Color(153, 153, 153));
 		rbtnTriFusionInsert.setBackground(new Color(153, 153, 153));
-		rbtnTriFusionInsert.setBounds(8, 320, 200, 20);
+		rbtnTriFusionInsert.setBounds(8, 340, 200, 20);
 		
 		rbtnI.setBackground(new Color(153, 153, 153));
 		rbtnI.setSelected(true);
-		rbtnI.setBounds(10, 370, 90, 20);
+		rbtnI.setBounds(10, 390, 90, 20);
 		rbtnD.setBackground(new Color(153, 153, 153));
-		rbtnD.setBounds(10, 390, 90, 20);
+		rbtnD.setBounds(10, 410, 90, 20);
 		rbtnR.setBackground(new Color(153, 153, 153));
-		rbtnR.setBounds(100, 370, 80, 20);
+		rbtnR.setBounds(100, 390, 80, 20);
 		rbtnR.setSelected(true);
 		rbtnL.setBackground(new Color(153, 153, 153));
-		rbtnL.setBounds(100, 390, 80, 20);
+		rbtnL.setBounds(100, 410, 80, 20);
 		
 	}
 	public void addalize() {
@@ -242,13 +240,17 @@ public class HomePanel {
 		btngFA.add(rbtnFADecreas);
 		btngFA.add(rbtnFAHand);
 		
+		
 		panel.add(rbtnTrInsert);
 		panel.add(rbtnTriFusion);
 		panel.add(rbtnTriBul);
 		panel.add(rbtnTriFusionInsert);
+		panel.add(rbtnTriTas);
+		
 		btngTri.add(rbtnTrInsert);
 		btngTri.add(rbtnTriFusion);
 		btngTri.add(rbtnTriBul);
+		btngTri.add(rbtnTriTas);
 		btngTri.add(rbtnTriFusionInsert);
 		
 		panel.add(rbtnI);
@@ -259,10 +261,7 @@ public class HomePanel {
 		panel.add(rbtnL);
 		btngRL.add(rbtnR);
 		btngRL.add(rbtnL);
-		
-		
-		
-		
+	
 	}
 	public void functionalize() {
 
@@ -273,20 +272,20 @@ public class HomePanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					t = new ArrayList<Integer>();
+					tIinitial = new ArrayList<Integer>();
 					int x = Integer.parseInt(tfSA.getText());
 					
 					if (rbtnFARand.isSelected()) {
 						for(int i=0;i<=x;i++) {
-							t.add((int)(Math.random()*100));
+							tIinitial.add((int)(Math.random()*100));
 						}
 					}else if (rbtnFAIncreas.isSelected()) {
 						for(int i=0;i<x;i++) {
-							t.add(i);
+							tIinitial.add(i);
 						}
 					}else if (rbtnFADecreas.isSelected()) {
 						for(int i=0;i<=x;i++) {
-							t.add(-i);
+							tIinitial.add(-i);
 						}
 					}else {
 						String tab = new String(tfKeyH.getText());
@@ -298,11 +297,11 @@ public class HomePanel {
 							}
 							//System.out.println("1_t["+i+"]"+t.get(i)+"tab[]:"+tab.charAt(i));
 							n=Integer.parseInt(c);
-							t.add(n);
+							tIinitial.add(n);
 							//System.out.println("2_t["+i+"]"+t.get(i)+"tab[]:"+tab.charAt(i));
 						}
 					}
-					txtpnB.setText(t.toString());
+					txtpnB.setText(tIinitial.toString());
 					System.out.println(" x="+x);			
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -319,15 +318,19 @@ public class HomePanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
+					tTrie = (ArrayList<Integer>) tIinitial.clone();
+					System.out.println(tTrie.toString());
 					t1=System.nanoTime();//currentTimeMillis();
 					if (rbtnTriBul.isSelected()) {
-						Tri.Tri_Bull(t,boolRL, boolID);
+						Tri.Tri_Bull(tTrie,boolRL, boolID);
 					}else if (rbtnTriFusion.isSelected()) {
-						Tri.Tri_Fusion(t, boolID) ;
+						Tri.Tri_Fusion(tTrie, boolID) ;
 					}else if (rbtnTrInsert.isSelected()) {
-						Tri.Tri_Insertion(t, boolID);
-					}else {
-						Tri.Tri_Fusion_Insertion(t, boolID, Integer.parseInt(tfKeyFI.getText()));
+						Tri.Tri_Insertion(tTrie, boolID);
+					}else if (rbtnTriTas.isSelected()) {
+						Tri.Tri_Tas(tTrie, boolID);
+					}else{
+						Tri.Tri_Fusion_Insertion(tTrie, boolID, Integer.parseInt(tfKeyFI.getText()));
 					}
 					t2=System.nanoTime();//currentTimeMillis();
 					te=t2-t1;
@@ -335,7 +338,7 @@ public class HomePanel {
 					lblExTi.setText("Execution Time : ##  "+te/1000+" Ms ##");// = new JLabel("Execution Time : "+te);
 					//lblET.setText("Execution Time : ##  "+te+"  ##");
 					 
-					txtpnA.setText(t.toString());
+					txtpnA.setText(tTrie.toString());
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -397,6 +400,15 @@ public class HomePanel {
 				}
 		});
 		rbtnTriFusion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				tfKeyFI.setEnabled(false);
+				rbtnR.setSelected(true);
+				rbtnR.setEnabled(false);rbtnL.setEnabled(false);
+				}
+		});
+		rbtnTriTas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
